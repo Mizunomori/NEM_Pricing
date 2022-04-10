@@ -44,10 +44,10 @@ d2 = dict['outputs']
 
 ## Need to figure out how to access ghi data specifically by month 
 df = pd.DataFrame.from_dict(d2, orient ='index')
-
-st.dataframe(df)
+mon = df.monthly
+st.dataframe(mon)
 
 # Calculate Power Generated 
-cell_eff = st.slider('Solar Cell Efficiency', min_value= 10, max_value = 30, step = 1) 
+cell_eff = st.slider('Solar Cell Efficiency', min_value= 10, max_value = 30, step = 1, value = 20) 
 
 tilt = st.slider('Angle of Roof/Solar Array', min_value= 0, max_value = 45, value = round(float(coords[0])) ,step = 1)
