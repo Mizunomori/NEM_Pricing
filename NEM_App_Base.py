@@ -24,6 +24,8 @@ zipcode = st.text_input('Zipcode', '14850')
 place = state + ' ' + city + ' ' + zipcode
 st.write('The location being queried is', place) 
 
+geolocator = Nominatim(user_agent="geoapiExercises")
+
 location = geolocator.geocode(place) 
 coords = np.array([location.latitude, location.longitude])
 
