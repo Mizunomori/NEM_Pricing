@@ -42,7 +42,13 @@ data =response_API.text
 dict = json.loads(data) 
 d2 = dict['outputs'] 
 
-#Need to figure out how to access ghi data specifically by month 
+## Need to figure out how to access ghi data specifically by month 
 df = pd.DataFrame.from_dict(d2, orient ='index')
 
 st.dataframe(df)
+
+# Calculate Power Generated 
+cell_eff = st.slider('Solar Cell Efficiency', min_value= 10, max_value = 30, step = 1) 
+
+tilt = st.write('Angle of Roof/Solar Array', abs(coords[1]))
+
