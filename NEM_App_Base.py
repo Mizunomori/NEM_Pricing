@@ -14,7 +14,7 @@ st.title("NEM Pricing Calculator")
 st.subheader("Inputs for Calculation") 
 
 pv_size = st.text_input('Area of PV Array (ft^2)', '250')
-pv_area = pv_size * 0.09290304
+pv_area = float(pv_size) * 0.09290304
 st.write('The current array size is', pv_area, 'm^2') 
 
 sys_cap = st.text_input('Capacity of Solar Array (kW)', '400')
