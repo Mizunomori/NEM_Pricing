@@ -69,8 +69,8 @@ losses = st.slider('What percent of power do you expect your system to lose?', m
 
 # Now Use the Latitude and Longitude Given to doan API pull of the soalr data from NREL 
 api_pull = 'https://developer.nrel.gov/api/pvwatts/v6.json?lat=' + coords[0]+ '&lon='+ coords[1] + \
- + 'module_type=' + module_type, '&system_capacity=' + sys_cap + '&tilt=' + tilt + '&array_type=' + \
-     array_type + '&azimuth=' + azimuth +'&losses=' + losses\
+ + 'module_type=' + str(module_type), '&system_capacity=' + str(sys_cap) + '&tilt=' + str(tilt) + '&array_type=' + \
+     str(array_type) + '&azimuth=' + str(azimuth) +'&losses=' + str(losses)\
          + '&api_key=90IdyNRwQOO0iv3PXV6wPAbfHl8dKrBFXWDWBadf'
 
 
