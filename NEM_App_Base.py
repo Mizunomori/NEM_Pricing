@@ -42,6 +42,7 @@ mod_df =pd.DataFrame({'Standard': [0], 'Premium': [1], 'Thin film': [2]})
 
 module_type = mod_df[module][0]
 
+#Tilt of the Soalr Cells relatie to horizontal
 tilt = st.slider('Angle of Roof/Solar Array', min_value= 0, max_value = 45, value = round(float(coords[0])) ,step = 1)
 
 #Selecting The Proper Array Arrangement
@@ -51,13 +52,26 @@ arr_df = pd.DataFrame({'Fixed - Open Rack':[0], 'Fixed - Roof Mounted':[1], '1-A
 
 array = st.selectbox('What type of array are you using?', arr_options, index = 1)
 st.write('You selected',array)
-
-
 array_type = arr_df[array][0]
+
+
+#Azimuth angle
+azi_options = ['S','SSW', 'SW','WSW','W','WNW', 'NW','NNW', 'N' ,'NNE','NE', 'ENE', 'E', 'ESE', 'SE','SSE']
+azi_df = pd.DataFrame({'S':[0], 'SSW':[22.5], 'SW':[45],'WSW':[67.5],'W':[90],'WNW':[112.5], 'NW':[135],'NNW':[157.5],\
+     'N':[180],'NNE':[202.5],'NE':[225], 'ENE':[247.5], 'E':[270], 'ESE':[297.5], 'SE':[315],'SSE':[337.5]}) 
+azi = st.selectbox('What direction is your house/array facing approximately?', azi_options, index = 0)
+
+azimuth = azi_df[azi][0]
+
+# Now Add the losses your system will experience 
+losses = st.slider('What percent of power do you expect your system to lose?', min_value = -5, max_value= 99, value = 15)
+
+
 # Now Use the Latitude and Longitude Given to doan API pull of the soalr data from NREL 
 api_pull = 'https://developer.nrel.gov/api/pvwatts/v6.json?lat=' + coords[0]+ '&lon='+ coords[1] + \
  + 'module_type=' + module_type, '&system_capacity=' + sys_cap + '&tilt=' + tilt + '&array_type=' + \
- array_type + '&api_key=90IdyNRwQOO0iv3PXV6wPAbfHl8dKrBFXWDWBadf'
+     array_type + '&azimuth=' + azimuth +'&losses=' + losses\
+         + '&api_key=90IdyNRwQOO0iv3PXV6wPAbfHl8dKrBFXWDWBadf'
 
 
 
@@ -69,8 +83,8 @@ d2 = dict['outputs']
 
 ## Need to figure out how to access ghi data specifically by month 
 df = pd.DataFrame.from_dict(d2, orient ='index')
-mon = df.monthly
-st.dataframe(mon)
+
+st.dataframe(df)
 
 # Calculate Power Generated 
 cell_eff = st.slider('Solar Cell Efficiency', min_value= 10, max_value = 30, step = 1, value = 20) 
