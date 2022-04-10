@@ -21,5 +21,10 @@ city= st.text_input('City of Residency', 'Ithaca')
 
 zipcode = st.text_input('Zipcode', '14850')
 
-place = state + city + zipcode
+place = state + ' ' + city + ' ' + zipcode
 st.write('The location being queried is', place) 
+
+location = geolocator.geocode(place) 
+coords = np.array([location.latitude, location.longitude])
+
+st.write('Your Latitude and Longitude is: (%3.2f, %3.2f)' %tuple(coords)) 
