@@ -13,9 +13,11 @@ import json
 st.title("NEM Pricing Calculator")
 st.subheader("Inputs for Calculation") 
 
-pv_size = st.text_input('Size of PV Array (kW)', '500')
-st.write('The current array size is', pv_size, 'kW') 
+pv_size = st.text_input('Area of PV Array (ft^2)', '250')
+pv_area = pv_size * 0.09290304
+st.write('The current array size is', pv_area, 'm^2') 
 
+sys_cap = st.text_input('Capacity of Solar Array (kW)', '400')
 
 state = zip_code = st.text_input('State of Residency', 'NY')
 city= st.text_input('City of Residency', 'Ithaca')
@@ -31,13 +33,36 @@ location = geolocator.geocode(place)
 coords = [str(location.latitude), str(location.longitude)]
 st.write('Your Latitude and Longitude is: (' + coords[0]+ ', ' +coords[1] + ')') 
 
+#Selecting Type of Module Used in Array
+mod_options = ['Standard', 'Premium', 'Thin film'] 
+
+module = st.selectbox('What type of modules are you using?', mod_options, index = 0)
+st.write('You selected',module)
+mod_df =pd.DataFrame({'Standard': [0], 'Premium': [1], 'Thin film': [2]})
+
+module_type = mod_df[module][0]
+
+tilt = st.slider('Angle of Roof/Solar Array', min_value= 0, max_value = 45, value = round(float(coords[0])) ,step = 1)
+
+#Selecting The Proper Array Arrangement
+arr_options = ['Fixed - Open Rack', 'Fixed - Roof Mounted', '1-Axis', '1-Axis Backtracking', '2-Axis']
+arr_df = pd.DataFrame({'Fixed - Open Rack':[0], 'Fixed - Roof Mounted':[1], '1-Axis':[2] \
+,'1-Axis Backtracking':[3], '2-Axis':[4]})
+
+array = st.selectbox('What type of array are you using?', arr_options, index = 1)
+st.write('You selected',array)
+
+
+array_type = arr_df[array][0]
 # Now Use the Latitude and Longitude Given to doan API pull of the soalr data from NREL 
-api_pull = 'https://developer.nrel.gov/api/solar/solar_resource/v1.json?lat=' + coords[0]+ '&lon='+ coords[1] + '&api_key=90IdyNRwQOO0iv3PXV6wPAbfHl8dKrBFXWDWBadf'
+api_pull = 'https://developer.nrel.gov/api/pvwatts/v6.json?lat=' + coords[0]+ '&lon='+ coords[1] + \
+ + 'module_type=' + module_type, '&system_capacity=' + sys_cap + '&tilt=' + tilt + '&array_type=' + \
+ array_type + '&api_key=90IdyNRwQOO0iv3PXV6wPAbfHl8dKrBFXWDWBadf'
 
 
 
 response_API = requests.get(api_pull) 
-
+# ghi data is in kWh/m2/day
 data =response_API.text
 dict = json.loads(data) 
 d2 = dict['outputs'] 
