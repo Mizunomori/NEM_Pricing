@@ -27,6 +27,9 @@ st.write('The location being queried is', place)
 geolocator = Nominatim(user_agent="geoapiExercises")
 
 location = geolocator.geocode(place) 
-coords = np.array([location.latitude, location.longitude])
+coords = [str(location.latitude), str(location.longitude)]
+
+api_pull = 'https://developer.nrel.gov/api/solar/solar_resource/v1.xml?lat=' + coords[0]+ '&lon='+ coords[1] + '&api_key=90IdyNRwQOO0iv3PXV6wPAbfHl8dKrBFXWDWBadf' 
+
 
 st.write('Your Latitude and Longitude is: (%3.2f, %3.2f)' %tuple(coords)) 
