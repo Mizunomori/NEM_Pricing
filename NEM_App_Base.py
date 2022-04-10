@@ -50,5 +50,5 @@ st.dataframe(df)
 # Calculate Power Generated 
 cell_eff = st.slider('Solar Cell Efficiency', min_value= 10, max_value = 30, step = 1) 
 
-tilt = st.write('Angle of Roof/Solar Array', abs(float(coords[1])))
+tilt = st.write('Angle of Roof/Solar Array', str(abs(float(coords[0]))))
 
