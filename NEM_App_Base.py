@@ -69,7 +69,7 @@ losses = st.slider('What percent of power do you expect your system to lose?', m
 
 # Now Use the Latitude and Longitude Given to doan API pull of the soalr data from NREL 
 api_pull = 'https://developer.nrel.gov/api/pvwatts/v6.json?lat=' + coords[0]+ '&lon='+ coords[1]\
- + '&module_type=' + str(module_type), '&system_capacity=' + str(sys_cap) + '&tilt=' + str(tilt) + '&array_type='\
+ + '&module_type=' + str(module_type) + '&system_capacity=' + str(sys_cap) + '&tilt=' + str(tilt) + '&array_type='\
     + str(array_type) + '&azimuth=' + str(azimuth) +'&losses=' + str(losses)\
          +'&api_key=90IdyNRwQOO0iv3PXV6wPAbfHl8dKrBFXWDWBadf'
 
@@ -82,11 +82,7 @@ dict = json.loads(data)
 d2 = dict['outputs'] 
 
 ## Need to figure out how to access ghi data specifically by month 
-df = pd.DataFrame.from_dict(d2, orient ='index')
+df = pd.DataFrame.from_dict(d2)
 
 st.dataframe(df)
 
-# Calculate Power Generated 
-cell_eff = st.slider('Solar Cell Efficiency', min_value= 10, max_value = 30, step = 1, value = 20) 
-
-tilt = st.slider('Angle of Roof/Solar Array', min_value= 0, max_value = 45, value = round(float(coords[0])) ,step = 1)
