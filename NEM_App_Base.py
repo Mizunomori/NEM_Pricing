@@ -39,6 +39,10 @@ api_pull = 'https://developer.nrel.gov/api/solar/solar_resource/v1.xml?lat=' + c
 response_API = requests.get(api_pull) 
 
 data =response_API.text
-parse_json = pd.DataFrame(json.loads(data))
+dict = json.loads(data) 
+d2 = dict['outputs'] 
 
-st.dataframe(parse_json)
+#Need to figure out how to access ghi data specifically by month 
+df = pd.DataFrame.from_dict(d2, orient ='index')
+
+st.dataframe(df)
