@@ -86,7 +86,7 @@ solar_df = pd.DataFrame.from_dict(d2)
 
 st.dataframe(solar_df)
 
-e_load = st.text_input('Amount of Power You Consume on Average per Mopnth (kWh)', '100') 
+e_load = st.text_input('Amount of Power You Consume on Average per Month (kWh)', '100') 
 
 
 # Now Use the Latitude and Longitude Given to doan API pull of the solar data from NREL 
@@ -95,10 +95,10 @@ price_pull = 'https://developer.nrel.gov/api/pvwatts/v6.json?lat=' + coords[0]+ 
 
 response_API = requests.get(price_pull) 
 # utility pricing data is in $/kWh 
-data =response_API.text
-dict = json.loads(data) 
-d2 = dict['outputs'] 
-price_df = pd.DataFrame.from_dict(d2)
+Pdata =response_API.text
+Pdict = json.loads(Pdata) 
+Pd2 = Pdict['outputs'] 
+price_df = pd.DataFrame.from_dict(Pd2)
 st.dataframe(price_df)
 
 
