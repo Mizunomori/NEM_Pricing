@@ -19,7 +19,7 @@ st.write('The current array size is', pv_area, 'm^2')
 
 sys_cap = st.text_input('Capacity of Solar Array (kW)', '400')
 
-state = zip_code = st.text_input('State of Residency', 'NY')
+state = st.text_input('State of Residency', 'NY')
 city= st.text_input('City of Residency', 'Ithaca')
 
 zipcode = st.text_input('Zipcode', '14850')
@@ -99,5 +99,17 @@ Pdict = json.loads(Pdata)
 Pd2 = Pdict['outputs'] 
 price_df = pd.DataFrame.from_dict(Pd2)
 st.dataframe(price_df)
+
+res_price = price_df.residential
+solar_prod = solar_df.ac_monthly
+demand = e_load
+for i in range(0,12): 
+     
+     if e_load >= solar_prod[i]:
+          Ppi = res_price
+          cost = Ppi * (demand - solar_prod)
+     else: 
+          Ppi = res_price -0.03
+          cost = Ppi * (solar_prod - demand) 
 
 
