@@ -90,8 +90,7 @@ e_load = st.text_input('Amount of Power You Consume on Average per Month (kWh)',
 
 
 # Now Use the Latitude and Longitude Given to doan API pull of the solar data from NREL 
-price_pull = 'https://developer.nrel.gov/api/pvwatts/v6.json?lat=' + coords[0]+ '&lon='+ coords[1]\
-         +'&api_key=90IdyNRwQOO0iv3PXV6wPAbfHl8dKrBFXWDWBadf'
+price_pull = 'https://developer.nrel.gov/api/utility_rates/v3.json?lat=' + coords[0]+ '&lon='+ coords[1] +'&api_key=90IdyNRwQOO0iv3PXV6wPAbfHl8dKrBFXWDWBadf'
 
 response_API = requests.get(price_pull) 
 # utility pricing data is in $/kWh 
