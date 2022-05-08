@@ -67,7 +67,7 @@ azimuth = azi_df[azi][0]
 losses = st.slider('What percent of power do you expect your system to lose?', min_value = -5, max_value= 99, value = 15)
 
 
-# Now Use the Latitude and Longitude Given to doan API pull of the soalr data from NREL 
+# Now Use the Latitude and Longitude Given to doan API pull of the solar data from NREL 
 api_pull = 'https://developer.nrel.gov/api/pvwatts/v6.json?lat=' + coords[0]+ '&lon='+ coords[1]\
  + '&module_type=' + str(module_type) + '&system_capacity=' + str(sys_cap) + '&tilt=' + str(tilt) + '&array_type='\
     + str(array_type) + '&azimuth=' + str(azimuth) +'&losses=' + str(losses)\
@@ -82,7 +82,23 @@ dict = json.loads(data)
 d2 = dict['outputs'] 
 
 ## Need to figure out how to access ghi data specifically by month 
-df = pd.DataFrame.from_dict(d2)
+solar_df = pd.DataFrame.from_dict(d2)
 
-st.dataframe(df)
+st.dataframe(solar_df)
+
+e_load = st.text_input('Amount of Power You Consume on Average per Mopnth (kWh)', '100') 
+
+
+# Now Use the Latitude and Longitude Given to doan API pull of the solar data from NREL 
+price_pull = 'https://developer.nrel.gov/api/pvwatts/v6.json?lat=' + coords[0]+ '&lon='+ coords[1]\
+         +'&api_key=90IdyNRwQOO0iv3PXV6wPAbfHl8dKrBFXWDWBadf'
+
+response_API = requests.get(price_pull) 
+# utility pricing data is in $/kWh 
+data =response_API.text
+dict = json.loads(data) 
+d2 = dict['outputs'] 
+price_df = pd.DataFrame.from_dict(d2)
+st.dataframe(price_df)
+
 
