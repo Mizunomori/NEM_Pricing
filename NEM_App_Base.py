@@ -131,12 +131,12 @@ if NEM == 'NEM 2.0':
           if e_load >= solar_prod[i]:
                Ppi = res_price
                savings[i] = Ppi * solar_prod[i]
-               cost[i] = Ppi * demand - savings
+               cost[i] = Ppi * demand - savings[i]
                
           else: 
                Ppi = res_price -0.03
                savings[i] = Ppi * solar_prod[i]
-               cost[i] = Ppi * demand - savings
+               cost[i] = Ppi * demand - savings[i]
 elif NEM == 'NEM 1.0':
      #NEM 1.0 
      for i in range(0,12): 
