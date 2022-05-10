@@ -127,20 +127,20 @@ if NEM == 'NEM 2.0':
           
           if e_load >= solar_prod[i]:
                Ppi = res_price
-               cost[i] = Ppi * (demand - solar_prod)
+               cost[i] = Ppi * (demand - solar_prod[i])
           else: 
                Ppi = res_price -0.03
-               cost[i] = Ppi * (solar_prod - demand) 
+               cost[i] = Ppi * (solar_prod[i] - demand) 
 elif NEM == 'NEM 1.0':
      #NEM 1.0 
      for i in range(0,12): 
           
           if e_load >= solar_prod[i]:
                Ppi = res_price
-               cost = Ppi * (demand - solar_prod)
+               cost = Ppi * (demand[i] - solar_prod[i])
           else: 
                Ppi = res_price
-               cost = Ppi * (solar_prod - demand) 
+               cost = Ppi * (solar_prod[i] - demand[i]) 
 
 cost[12] = np.sum(cost[:12])
 
