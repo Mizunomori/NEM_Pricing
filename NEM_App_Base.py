@@ -9,6 +9,7 @@ import pandas as pd
 from geopy.geocoders import Nominatim 
 import requests 
 import json
+!pip install pvlib
 from pvlib import location
 from pvlib import irradiance
 import pandas as pd
