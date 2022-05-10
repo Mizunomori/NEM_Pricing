@@ -173,7 +173,7 @@ for i in range(0,len(dates)):
 for h in range(0,len(days)): 
      avg_irad = (dy_irad[0,:,:] + dy_irad[1,:,:])/2 
 
-payback = install_cost/abs(savings[12])
+payback = install_cost/savings[12]
 
 fig,axs = plt.subplots(1,1, figsize =(8,6))
 
