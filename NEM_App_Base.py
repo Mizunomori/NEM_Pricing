@@ -118,7 +118,8 @@ price_df = pd.DataFrame.from_dict(Pd2)
 NEM = 'NEM 2.0'
 
 cost = np.zeros(13)
-solar_prod = np.zeros(13)
+solar_prod = np.zeros(13) 
+savings = np.zeros(13)
 if NEM == 'NEM 2.0':
 #NEM 2.0 
      res_price = price_df.residential
@@ -129,10 +130,13 @@ if NEM == 'NEM 2.0':
           
           if e_load >= solar_prod[i]:
                Ppi = res_price
-               cost[i] = Ppi * (demand - solar_prod[i])
+               savings[i] = Ppi * solar_prod[i]
+               cost[i] = Ppi * demand - savings
+               
           else: 
                Ppi = res_price -0.03
-               cost[i] = Ppi * ( demand - solar_prod[i]) 
+               savings[i] = Ppi * solar_prod[i]
+               cost[i] = Ppi * demand - savings
 elif NEM == 'NEM 1.0':
      #NEM 1.0 
      for i in range(0,12): 
@@ -145,9 +149,9 @@ elif NEM == 'NEM 1.0':
                cost = Ppi * (demand[i] -solar_prod[i]) 
 
 cost[12] = np.sum(cost[:12])
-
+savings[12] = np.sum(savings)
 Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Tot']
-fd = pd.DataFrame({'Month': Months, 'Solar Production (kWh)': solar_prod, 'Bill After Solar NEM ($)': cost})
+fd = pd.DataFrame({'Month': Months, 'Solar Production (kWh)': solar_prod, 'Bill After Solar NEM ($)': cost, 'Savings': savings})
 
 
 st.dataframe(fd)
@@ -169,7 +173,7 @@ for i in range(0,len(dates)):
 for h in range(0,len(days)): 
      avg_irad = (dy_irad[0,:,:] + dy_irad[1,:,:])/2 
 
-payback = install_cost/abs(cost[12])
+payback = install_cost/abs(savings[12])
 
 fig,axs = plt.subplots(1,1, figsize =(8,6))
 
