@@ -30,7 +30,7 @@ site = location.Location(lat, lon, tz=tz)
 # different locations
 def get_irradiance(site_location, date, tilt, surface_azimuth):
     # Creates one day's worth of 10 min intervals
-    times = pd.date_range(date, freq='1H', periods=8760,
+    times = pd.date_range(date, freq='H', periods=8760,
                           tz=site_location.tz)
     # Generate clearsky data using the Ineichen model, which is the default
     # The get_clearsky method returns a dataframe with values for GHI, DNI,
