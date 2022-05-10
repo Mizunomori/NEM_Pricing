@@ -9,6 +9,8 @@ import pandas as pd
 from geopy.geocoders import Nominatim 
 import requests 
 import json
+from pvlib import location
+from pvlib import irradiance
 import pandas as pd
 from matplotlib import pyplot as plt
 from plot_ghi_transposition import get_irradiance
@@ -150,5 +152,19 @@ st.dataframe(fd)
 
 #If Smart Home we can caculate power over smaller timescales 
 
+obj = TimezoneFinder()
+tz = obj.timezone_at(lng = lon, lat = lat) 
+site_location = location.Location(lat, lon, tz=tz)
+
+dates= ['01-01-2019', '01-01-2021']
+days = [31, 28, 31, 30, 31, 30, 31,31, 30, 31, 30, 31] 
+
+dy_irad = np.zeros([8760,2])
+for i in range(0,len(dates)):
+     dy_irad[:,i] = get_irradiance(site_location, dates[i], tilt, azimuth)
+     
+     
+for h in range(0,len(days)): 
+     avg_irad = (dy_irad[:,0] + dy_irad[:,1])/2 
 
 
