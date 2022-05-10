@@ -99,7 +99,7 @@ solar_df = pd.DataFrame.from_dict(d2)
 
 st.dataframe(solar_df)
 
-e_load = st.text_input('Amount of Power You Consume on Average per Month (kWh)', '100') 
+e_load = float(st.text_input('Amount of Power You Consume on Average per Month (kWh)', '100'))
 
 
 # Now Use the Latitude and Longitude Given to doan API pull of the solar data from NREL 
