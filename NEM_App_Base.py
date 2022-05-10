@@ -99,9 +99,9 @@ d2 = dict['outputs']
 ## Need to figure out how to access ghi data specifically by month 
 solar_df = pd.DataFrame.from_dict(d2)
 
-st.dataframe(solar_df)
+#st.dataframe(solar_df)
 
-e_load = float(st.text_input('Amount of Power You Consume on Average per Month (kWh)', '100'))
+e_load = float(st.text_input('Amount of Power You Consume on Average per Month (kWh)', '700'))
 
 
 # Now Use the Latitude and Longitude Given to doan API pull of the solar data from NREL 
@@ -113,7 +113,7 @@ Pdata =response_API.text
 Pdict = json.loads(Pdata) 
 Pd2 = Pdict['outputs'] 
 price_df = pd.DataFrame.from_dict(Pd2)
-st.dataframe(price_df)
+#st.dataframe(price_df)
 
 NEM = 'NEM 2.0'
 
@@ -169,4 +169,13 @@ for i in range(0,len(dates)):
 for h in range(0,len(days)): 
      avg_irad = (dy_irad[0,:,:] + dy_irad[1,:,:])/2 
 
+payback = install_cost/abs(cost[12])
 
+fig,axs = plt.subplots(1,1 figsize =(8,6))
+
+axs.plot(Months[:12], cost[:12], '-')
+axs.set_xlabel('Month')
+axs.set_ylabel('Bill ($)')
+axs.set_title('Bill vs. Month')
+st.pyplot(fig)
+st.write('Before consideration of tax credits from both federal, state, and local level, payback time for solar installation is %3.2f years' %payback)
