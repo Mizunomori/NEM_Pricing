@@ -171,7 +171,7 @@ for h in range(0,len(days)):
 
 payback = install_cost/abs(cost[12])
 
-fig,axs = plt.subplots(1,1 figsize =(8,6))
+fig,axs = plt.subplots(1,1, figsize =(8,6))
 
 axs.plot(Months[:12], cost[:12], '-')
 axs.set_xlabel('Month')
