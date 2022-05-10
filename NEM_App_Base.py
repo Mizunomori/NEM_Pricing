@@ -24,7 +24,7 @@ st.write('The current array size is', pv_area, 'm^2')
 
 
 
-sys_cap = st.text_input('Capacity of Solar Array (kW)', '10')
+sys_cap = float(st.text_input('Capacity of Solar Array (kW)', '10'))
 c = np.array([206.14285714, 2426.14285714,  -38.32142857])
 
 install_cost = c[2]*sys_cap**2 +  sys_cap* c[1] + c[0]
