@@ -24,8 +24,8 @@ st.subheader("Inputs for Calculation")
 #pv_area = float(pv_size) * 0.09290304
 #st.write('The current array size is', pv_area, 'm^2') 
 
-
-st.write('From your location information we will be able to calculate the average amount of sunlight you would receive as well as the residential electricity prices.')
+st.header('Location')
+st.subheader('From your location information we will be able to calculate the average amount of sunlight you would receive as well as the residential electricity prices.')
 
 
 state = st.text_input('State of Residency', 'NY')
@@ -44,8 +44,8 @@ lat = float(coords[0])
 lon = float(coords[1])
 st.write('Your Latitude and Longitude is: (' + coords[0]+ ', ' +coords[1] + ')') 
 
-
-st.write('Now we can move onto the specifications of the solar system you have in mind.')
+st.header('Solar Array')
+st.subheader('The specifications of your solar system will determine its performance and how much you may potentially save.')
 sys_cap = float(st.text_input('Capacity of Solar Array (kW)', '10'))
 c = np.array([206.14285714, 2426.14285714,  -38.32142857])
 
@@ -63,7 +63,7 @@ mod_df =pd.DataFrame({'Standard': [0], 'Premium': [1], 'Thin film': [2]})
 module_type = mod_df[module][0]
 
 #Tilt of the Soalr Cells relatie to horizontal
-tilt = st.slider('Angle of Roof/Solar Array', min_value= 0, max_value = 45, value = round(float(coords[0])) ,step = 1)
+tilt = st.slider('Angle of Roof/Solar Array', min_value= 0, max_value = 45, value = 30 ,step = 1)
 
 #Selecting The Proper Array Arrangement
 arr_options = ['Fixed - Open Rack', 'Fixed - Roof Mounted', '1-Axis', '1-Axis Backtracking', '2-Axis']
@@ -87,6 +87,8 @@ azimuth = azi_df[azi][0]
 losses = st.slider('What percent of power do you expect your system to lose?', min_value = -5, max_value= 99, value = 15)
 
 
+st.header('Results')
+
 # Now Use the Latitude and Longitude Given to doan API pull of the solar data from NREL 
 api_pull = 'https://developer.nrel.gov/api/pvwatts/v6.json?lat=' + coords[0]+ '&lon='+ coords[1]\
  + '&module_type=' + str(module_type) + '&system_capacity=' + str(sys_cap) + '&tilt=' + str(tilt) + '&array_type='\
@@ -104,7 +106,7 @@ d2 = dict['outputs']
 ## Need to figure out how to access ghi data specifically by month 
 solar_df = pd.DataFrame.from_dict(d2)
 
-st.dataframe(solar_df)
+#st.dataframe(solar_df)
 
 e_load = float(st.text_input('Amount of Power You Consume on Average per Month (kWh)', '700'))
 
