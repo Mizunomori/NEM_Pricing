@@ -2,3 +2,4 @@ geopy
 pvlib 
 matplotlib 
 numpy 
+timezonefinder

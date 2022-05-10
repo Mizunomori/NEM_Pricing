@@ -14,6 +14,8 @@ from pvlib import irradiance
 import pandas as pd
 from matplotlib import pyplot as plt
 from plot_ghi_transposition import get_irradiance
+from timezonefinder import TimezoneFinder 
+
 
 st.title("NEM Pricing Calculator")
 st.subheader("Inputs for Calculation") 
@@ -130,7 +132,7 @@ if NEM == 'NEM 2.0':
                cost[i] = Ppi * (demand - solar_prod[i])
           else: 
                Ppi = res_price -0.03
-               cost[i] = Ppi * (solar_prod[i] - demand) 
+               cost[i] = Ppi * ( demand - solar_prod[i]) 
 elif NEM == 'NEM 1.0':
      #NEM 1.0 
      for i in range(0,12): 
@@ -140,12 +142,12 @@ elif NEM == 'NEM 1.0':
                cost = Ppi * (demand[i] - solar_prod[i])
           else: 
                Ppi = res_price
-               cost = Ppi * (solar_prod[i] - demand[i]) 
+               cost = Ppi * (demand[i] -solar_prod[i]) 
 
 cost[12] = np.sum(cost[:12])
 
 Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Tot']
-fd = pd.DataFrame({'Month': Months, 'Solar Production (kWh)': solar_prod, 'Bill After Solar NEM': cost})
+fd = pd.DataFrame({'Month': Months, 'Solar Production (kWh)': solar_prod, 'Bill After Solar NEM ($)': cost})
 
 
 st.dataframe(fd)
