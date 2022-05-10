@@ -9,6 +9,11 @@ import pandas as pd
 from geopy.geocoders import Nominatim 
 import requests 
 import json
+from pvlib import location
+from pvlib import irradiance
+import pandas as pd
+from matplotlib import pyplot as plt
+from plot_ghi_transposition import get_irradiance
 
 st.title("NEM Pricing Calculator")
 st.subheader("Inputs for Calculation") 
@@ -17,7 +22,13 @@ pv_size = st.text_input('Area of PV Array (ft^2)', '250')
 pv_area = float(pv_size) * 0.09290304
 st.write('The current array size is', pv_area, 'm^2') 
 
-sys_cap = st.text_input('Capacity of Solar Array (kW)', '400')
+
+
+sys_cap = st.text_input('Capacity of Solar Array (kW)', '10')
+c = [206.14285714, 2426.14285714,  -38.32142857]
+
+install_cost = c[2]*sys_cap**2 +  sys_cap* c[1] + c[0]
+
 
 state = st.text_input('State of Residency', 'NY')
 city= st.text_input('City of Residency', 'Ithaca')
@@ -31,6 +42,8 @@ geolocator = Nominatim(user_agent="geoapiExercises")
 
 location = geolocator.geocode(place) 
 coords = [str(location.latitude), str(location.longitude)]
+lat = coords[0]
+lon = coords[1]
 st.write('Your Latitude and Longitude is: (' + coords[0]+ ', ' +coords[1] + ')') 
 
 #Selecting Type of Module Used in Array
@@ -100,16 +113,58 @@ Pd2 = Pdict['outputs']
 price_df = pd.DataFrame.from_dict(Pd2)
 st.dataframe(price_df)
 
-res_price = price_df.residential
-solar_prod = solar_df.ac_monthly
-demand = e_load
-for i in range(0,12): 
+NEM = 'NEM 2.0'
+
+cost = np.zeros(13)
+solar_prod = np.zeros(13)
+if NEM == 'NEM 2.0':
+#NEM 2.0 
+     res_price = price_df.residential
+     solar_prod[:12] = solar_df.ac_monthly
+     solar_prod[12] = np.sum(solar_prod[:12])
+     demand = e_load
+     for i in range(0,12): 
+          
+          if e_load >= solar_prod[i]:
+               Ppi = res_price
+               cost[i] = Ppi * (demand - solar_prod)
+          else: 
+               Ppi = res_price -0.03
+               cost[i] = Ppi * (solar_prod - demand) 
+elif NEM == 'NEM 1.0':
+     #NEM 1.0 
+     for i in range(0,12): 
+          
+          if e_load >= solar_prod[i]:
+               Ppi = res_price
+               cost = Ppi * (demand - solar_prod)
+          else: 
+               Ppi = res_price
+               cost = Ppi * (solar_prod - demand) 
+
+cost[12] = np.sum(cost[:12])
+
+Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Tot']
+fd = pd.DataFrame({'Month': Months, 'Solar Production (kWh)': solar_prod, 'Bill After Solar NEM': cost})
+
+
+st.dataframe(fd)
+
+#If Smart Home we can caculate power over smaller timescales 
+
+obj = TimezoneFinder()
+tz = obj.timezone_at(lng = lon, lat = lat) 
+site_location = location.Location(lat, lon, tz=tz)
+
+dates= ['01-01-2019', '01-01-2021']
+days = [31, 28, 31, 30, 31, 30, 31,31, 30, 31, 30, 31] 
+
+dy_irad = np.zeros([8760,2])
+for i in range(0,len(dates)):
+     dy_irad[:,i] = get_irradiance(site_location, dates[i], tilt, azimuth)
      
-     if e_load >= solar_prod[i]:
-          Ppi = res_price
-          cost = Ppi * (demand - solar_prod)
-     else: 
-          Ppi = res_price -0.03
-          cost = Ppi * (solar_prod - demand) 
+     
+for h in range(0,len(days)): 
+     avg_irad = (dy_irad[:,0] + dy_irad[:,1])/2 
 
 
