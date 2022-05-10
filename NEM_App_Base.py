@@ -86,6 +86,8 @@ azimuth = azi_df[azi][0]
 # Now Add the losses your system will experience 
 losses = st.slider('What percent of power do you expect your system to lose?', min_value = -5, max_value= 99, value = 15)
 
+e_load = float(st.text_input('Amount of Power You Consume on Average per Month (kWh)', '700'))
+
 
 st.header('Results')
 
@@ -108,7 +110,6 @@ solar_df = pd.DataFrame.from_dict(d2)
 
 #st.dataframe(solar_df)
 
-e_load = float(st.text_input('Amount of Power You Consume on Average per Month (kWh)', '700'))
 
 
 # Now Use the Latitude and Longitude Given to doan API pull of the solar data from NREL 
