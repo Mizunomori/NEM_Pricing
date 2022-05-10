@@ -9,7 +9,7 @@ import pandas as pd
 from geopy.geocoders import Nominatim 
 import requests 
 import json
-from pvlib import location
+from pvlib import location as loc
 from pvlib import irradiance
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -156,7 +156,7 @@ st.dataframe(fd)
 
 obj = TimezoneFinder()
 tz = obj.timezone_at(lng = lon, lat = lat) 
-site_location = location.Location(lat, lon, tz=tz)
+site_location = loc.Location(lat, lon, tz=tz)
 
 dates= ['01-01-2019', '01-01-2021']
 days = [31, 28, 31, 30, 31, 30, 31,31, 30, 31, 30, 31] 
