@@ -20,16 +20,12 @@ from timezonefinder import TimezoneFinder
 st.title("NEM Pricing Calculator")
 st.subheader("Inputs for Calculation") 
 
-pv_size = st.text_input('Area of PV Array (ft^2)', '250')
-pv_area = float(pv_size) * 0.09290304
-st.write('The current array size is', pv_area, 'm^2') 
+#pv_size = st.text_input('Area of PV Array (ft^2)', '250')
+#pv_area = float(pv_size) * 0.09290304
+#st.write('The current array size is', pv_area, 'm^2') 
 
 
-
-sys_cap = float(st.text_input('Capacity of Solar Array (kW)', '10'))
-c = np.array([206.14285714, 2426.14285714,  -38.32142857])
-
-install_cost = c[2]*sys_cap**2 +  sys_cap* c[1] + c[0]
+st.write('From your location information we will be able to calculate the average amount of sunlight you would receive as well as the residential electricity prices.')
 
 
 state = st.text_input('State of Residency', 'NY')
@@ -47,6 +43,15 @@ coords = [str(location.latitude), str(location.longitude)]
 lat = float(coords[0])
 lon = float(coords[1])
 st.write('Your Latitude and Longitude is: (' + coords[0]+ ', ' +coords[1] + ')') 
+
+
+st.write('Now we can move onto the specifications of the solar system you have in mind.')
+sys_cap = float(st.text_input('Capacity of Solar Array (kW)', '10'))
+c = np.array([206.14285714, 2426.14285714,  -38.32142857])
+
+install_cost = c[2]*sys_cap**2 +  sys_cap* c[1] + c[0]
+
+st.write('Estimated installation cost for Array Size %3.2f kW before tax credits is $ %5.2f' %tuple[sys_cap, install_cost])
 
 #Selecting Type of Module Used in Array
 mod_options = ['Standard', 'Premium', 'Thin film'] 
@@ -99,7 +104,7 @@ d2 = dict['outputs']
 ## Need to figure out how to access ghi data specifically by month 
 solar_df = pd.DataFrame.from_dict(d2)
 
-#st.dataframe(solar_df)
+st.dataframe(solar_df)
 
 e_load = float(st.text_input('Amount of Power You Consume on Average per Month (kWh)', '700'))
 
@@ -151,7 +156,7 @@ elif NEM == 'NEM 1.0':
 cost[12] = np.sum(cost[:12])
 savings[12] = np.sum(savings)
 Months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Tot']
-fd = pd.DataFrame({'Month': Months, 'Solar Production (kWh)': solar_prod, 'Bill After Solar NEM ($)': cost, 'Savings': savings})
+fd = pd.DataFrame({'Month': Months, 'Solar Production (kWh)': solar_prod, 'Bill After Solar NEM ($)': cost, 'Savings ($)': savings})
 
 
 st.dataframe(fd)
