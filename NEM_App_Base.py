@@ -44,8 +44,8 @@ geolocator = Nominatim(user_agent="geoapiExercises")
 
 location = geolocator.geocode(place) 
 coords = [str(location.latitude), str(location.longitude)]
-lat = coords[0]
-lon = coords[1]
+lat = float(coords[0])
+lon = float(coords[1])
 st.write('Your Latitude and Longitude is: (' + coords[0]+ ', ' +coords[1] + ')') 
 
 #Selecting Type of Module Used in Array
