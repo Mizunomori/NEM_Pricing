@@ -51,7 +51,7 @@ c = np.array([206.14285714, 2426.14285714,  -38.32142857])
 
 install_cost = c[2]*sys_cap**2 +  sys_cap* c[1] + c[0]
 
-st.write('Estimated installation cost for Array Size %3.2f kW before tax credits is $ %5.2f' %tuple[sys_cap, install_cost])
+st.write('Estimated installation cost for Array Size %3.2f kW before tax credits is $ %5.2f' %tuple([sys_cap, install_cost]))
 
 #Selecting Type of Module Used in Array
 mod_options = ['Standard', 'Premium', 'Thin film'] 
