@@ -191,19 +191,12 @@ dates= ['01-01-2019', '01-01-2021']
 days = [31, 28, 31, 30, 31, 30, 31,31, 30, 31, 30, 31] 
 
 dy_irad = np.zeros([2,8760,2])
-for i in range(0,len(dates)):
-     dy_irad[i,:,:] = get_irradiance(site_location, dates[i], tilt, azimuth)
+#for i in range(0,len(dates)):
+#dy_irad[i,:,:] = get_irradiance(site_location, dates[i], tilt, azimuth)
      
    
-for h in range(0,len(days)): 
-     avg_irad = (dy_irad[0,:,:] + dy_irad[1,:,:])/2 
+#for h in range(0,len(days)): 
+#avg_irad = (dy_irad[0,:,:] + dy_irad[1,:,:])/2 
 
 
-for j in range(0, len(days)):
-     
-
-# 
-
-
-
-
+#for j in range(0, len(days)):
