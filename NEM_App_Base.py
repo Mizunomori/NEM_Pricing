@@ -179,6 +179,7 @@ axs.plot(Months[:12], cost[:12], '-')
 axs.set_xlabel('Month')
 axs.set_ylabel('Bill ($)')
 axs.set_title('Bill vs. Month')
+plt.rcParams['font.size'] = 13
 st.pyplot(fig)
 
 #If Smart Home we can caculate power over smaller timescales 
