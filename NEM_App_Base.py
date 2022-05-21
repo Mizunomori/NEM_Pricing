@@ -95,7 +95,7 @@ Pdata =response_API.text
 Pdict = json.loads(Pdata) 
 Pd2 = Pdict['outputs'] 
 price_df = pd.DataFrame.from_dict(Pd2) 
-res_price = price_df.residential 
+res_price = float(price_df.residential)
 
 e_bill = float(st.text_input('What is your average electricity bill ($)?', '100'))
 st.write('Price of electricity for a residential consumer in your area is $ %2.3f/kWh' %res_price)
