@@ -15,10 +15,10 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from plot_ghi_transposition import get_irradiance
 from timezonefinder import TimezoneFinder 
-
+import cvxpy as cp 
 
 st.title("NEM Pricing Calculator")
-st.subheader("Inputs for Calculation") 
+
 
 #pv_size = st.text_input('Area of PV Array (ft^2)', '250')
 #pv_area = float(pv_size) * 0.09290304
@@ -86,7 +86,22 @@ azimuth = azi_df[azi][0]
 # Now Add the losses your system will experience 
 losses = st.slider('What percent of power do you expect your system to lose?', min_value = -5, max_value= 99, value = 15)
 
-e_load = float(st.text_input('Amount of Power You Consume on Average per Month (kWh)', '700'))
+# Now Use the Latitude and Longitude Given to doan API pull of the utility rates from NREL 
+price_pull = 'https://developer.nrel.gov/api/utility_rates/v3.json?lat=' + coords[0]+ '&lon='+ coords[1] +'&api_key=90IdyNRwQOO0iv3PXV6wPAbfHl8dKrBFXWDWBadf'
+
+response_API = requests.get(price_pull) 
+# utility pricing data is in $/kWh 
+Pdata =response_API.text
+Pdict = json.loads(Pdata) 
+Pd2 = Pdict['outputs'] 
+price_df = pd.DataFrame.from_dict(Pd2) 
+res_price = price_df.residential 
+
+e_bill = float(st.text_input('What is your average electricity bill ($)?', '100'))
+st.write('Price of electricity for a residential consumer in your area is $ %2.3f/kWh' %res_price)
+
+
+e_load = e_bill/res_price
 
 
 st.header('Results')
@@ -112,16 +127,7 @@ solar_df = pd.DataFrame.from_dict(d2)
 
 
 
-# Now Use the Latitude and Longitude Given to doan API pull of the solar data from NREL 
-price_pull = 'https://developer.nrel.gov/api/utility_rates/v3.json?lat=' + coords[0]+ '&lon='+ coords[1] +'&api_key=90IdyNRwQOO0iv3PXV6wPAbfHl8dKrBFXWDWBadf'
 
-response_API = requests.get(price_pull) 
-# utility pricing data is in $/kWh 
-Pdata =response_API.text
-Pdict = json.loads(Pdata) 
-Pd2 = Pdict['outputs'] 
-price_df = pd.DataFrame.from_dict(Pd2)
-#st.dataframe(price_df)
 
 NEM = 'NEM 2.0'
 
@@ -130,7 +136,7 @@ solar_prod = np.zeros(13)
 savings = np.zeros(13)
 if NEM == 'NEM 2.0':
 #NEM 2.0 
-     res_price = price_df.residential
+     
      solar_prod[:12] = solar_df.ac_monthly
      solar_prod[12] = np.sum(solar_prod[:12])
      demand = e_load
@@ -164,6 +170,17 @@ fd = pd.DataFrame({'Month': Months, 'Solar Production (kWh)': solar_prod, 'Bill 
 
 st.dataframe(fd)
 
+
+payback = install_cost/savings[12]
+
+fig,axs = plt.subplots(1,1, figsize =(8,6))
+
+axs.plot(Months[:12], cost[:12], '-')
+axs.set_xlabel('Month')
+axs.set_ylabel('Bill ($)')
+axs.set_title('Bill vs. Month')
+st.pyplot(fig)
+
 #If Smart Home we can caculate power over smaller timescales 
 
 obj = TimezoneFinder()
@@ -177,17 +194,16 @@ dy_irad = np.zeros([2,8760,2])
 for i in range(0,len(dates)):
      dy_irad[i,:,:] = get_irradiance(site_location, dates[i], tilt, azimuth)
      
-     
+   
 for h in range(0,len(days)): 
      avg_irad = (dy_irad[0,:,:] + dy_irad[1,:,:])/2 
 
-payback = install_cost/savings[12]
 
-fig,axs = plt.subplots(1,1, figsize =(8,6))
+for j in range(0, len(days)):
+     return
 
-axs.plot(Months[:12], cost[:12], '-')
-axs.set_xlabel('Month')
-axs.set_ylabel('Bill ($)')
-axs.set_title('Bill vs. Month')
-st.pyplot(fig)
-st.write('Before consideration of tax credits from both federal, state, and local level, payback time for solar installation is %3.2f years' %payback)
+# 
+
+
+
+
