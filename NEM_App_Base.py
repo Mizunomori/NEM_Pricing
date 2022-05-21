@@ -15,7 +15,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from plot_ghi_transposition import get_irradiance
 from timezonefinder import TimezoneFinder 
-import cvxpy as cp 
+
 
 st.title("NEM Pricing Calculator")
 
