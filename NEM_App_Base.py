@@ -200,7 +200,7 @@ for h in range(0,len(days)):
 
 
 for j in range(0, len(days)):
-     return
+     
 
 # 
 
