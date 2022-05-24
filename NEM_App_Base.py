@@ -281,3 +281,6 @@ st.pyplot(fig)
 hr_df = pd.DataFrame({'Hours': hours, 'Summer Before (kWh)' : summ, 'Summer w/ Solar (kWh)': q_s, 'Fall Before (kWh)': fall, 'Fall w/ Solar (kWh)': q_f})
 
 st.dataframe(hr_df)
+
+st.write('Somewhat counterintuitively, consumption tends to go up with the addition of solar. Think of it in the same context of excusing \
+     eating a cooke because you have worked out.')
