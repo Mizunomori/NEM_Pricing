@@ -264,8 +264,8 @@ for h in range(0,23):
 
 fig,axs = plt.subplots(1,1, figsize =(8,6))
 
-hours = ['12 AM',	'1 AM',	'2 AM',	'3 AM',	'4 AM',	'5 AM',	'6 AM',	'7AM',	'8 AM',	'9 AM', \
-     	'10 AM',	'11 AM',	'12 PM',	'1 PM',	'2 PM',	'3 PM',	'4 PM',	'5 PM',	'6 PM',	'7 PM',	'8 PM',	'9 PM',	'10 PM',	'11 PM']
+hours = ['0',	'1',	'2',	'3',	'4',	'5',	'6',	'7AM',	'8',	'9', \
+     	'10',	'11',	'13',	'14',	'15',	'16',	'17',	'18',	'19',	'20',	'21M',	'22',	'23',	'24']
 
 axs.plot(hours, summ, '--', label = 'Summer Consumption Before')
 axs.plot(hours, fall, '--', label = 'Fall Consumption Before') 
@@ -275,7 +275,7 @@ axs.set_xlabel('Hour')
 axs.set_ylabel('Demand (kWh')
 axs.set_title('Demand vs. Hour') 
 axs.legend()
-plt.rcParams['font.size'] = 13
+plt.rcParams['font.size'] = 11
 st.pyplot(fig) 
 
 hr_df = pd.DataFrame({'Hours': hours, 'Summer Before (kWh)' : summ, 'Summer w/ Solar (kWh)': q_s, 'Fall Before (kWh)': fall, 'Fall w/ Solar (kWh)': q_f})
