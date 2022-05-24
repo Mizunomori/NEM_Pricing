@@ -264,7 +264,7 @@ for h in range(0,23):
 
 fig,axs = plt.subplots(1,1, figsize =(10,8))
 
-hours = ['0',	'1',	'2',	'3',	'4',	'5',	'6',	'7AM',	'8',	'9', \
+hours = ['0',	'1',	'2',	'3',	'4',	'5',	'6',	'7',	'8',	'9', \
      	'10',	'11',	'13',	'14',	'15',	'16',	'17',	'18',	'19',	'20',	'21M',	'22',	'23',	'24']
 
 axs.plot(hours, summ, '--', label = 'Summer Consumption Before')
