@@ -272,7 +272,7 @@ axs.plot(hours, fall, '--', label = 'Fall Consumption Before')
 axs.plot(hours, q_s, '-', label = 'Summer Consumption w/ Solar') 
 axs.plot(hours, q_f, '-', label = 'Fall Consumption w/ Solar')
 axs.set_xlabel('Hour')
-axs.set_ylabel('Demand (kWh')
+axs.set_ylabel('Demand (kWh)')
 axs.set_title('Demand vs. Hour') 
 axs.legend()
 plt.rcParams['font.size'] = 11
