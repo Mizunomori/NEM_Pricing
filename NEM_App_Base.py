@@ -262,7 +262,7 @@ for h in range(0,23):
      else: 
           q_f[h] = fall_pwr[h] 
 
-fig,axs = plt.subplots(1,1, figsize =(8,6))
+fig,axs = plt.subplots(1,1, figsize =(10,8))
 
 hours = ['0',	'1',	'2',	'3',	'4',	'5',	'6',	'7AM',	'8',	'9', \
      	'10',	'11',	'13',	'14',	'15',	'16',	'17',	'18',	'19',	'20',	'21M',	'22',	'23',	'24']
