@@ -267,6 +267,9 @@ fig,axs = plt.subplots(1,1, figsize =(10,8))
 hours = ['0',	'1',	'2',	'3',	'4',	'5',	'6',	'7',	'8',	'9', \
      	'10',	'11',	'13',	'14',	'15',	'16',	'17',	'18',	'19',	'20',	'21',	'22',	'23',	'24']
 
+st.header('Impacts of NEM on Hourly Consumption')
+st.write('Here we compare coonsumption behaviors before and after installation of solar. This behavior is determined by what is called a Surplus function, \
+     something that express how much you value using electricity considering the amount that you are paying for it.')
 axs.plot(hours, summ, '--', label = 'Summer Consumption Before')
 axs.plot(hours, fall, '--', label = 'Fall Consumption Before') 
 axs.plot(hours, q_s, '-', label = 'Summer Consumption w/ Solar') 
@@ -283,4 +286,4 @@ hr_df = pd.DataFrame({'Hours': hours, 'Summer Before (kWh)' : summ, 'Summer w/ S
 st.dataframe(hr_df)
 
 st.write('Somewhat counterintuitively, consumption tends to go up with the addition of solar. Think of it in the same context of excusing \
-     eating a cooke because you have worked out.')
+     eating a cooke because you have worked out. Since you are paying less, the Surplus function suggests that you can consume more.')
